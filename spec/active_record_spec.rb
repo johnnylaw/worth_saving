@@ -1,17 +1,8 @@
 require 'spec_helper'
 require 'worth_saving'
 
-# 'records' table defined in spec/dummy/db/migrate/20130823064546_create_records.rb
-
 describe ActiveRecord::Base do
   describe 'worth_saving subclass' do
-    before :all do
-      class WorthSavingRecord < ActiveRecord::Base
-        self.table_name = 'records'
-        worth_saving
-      end
-    end
-
     describe 'associations' do
       subject { WorthSavingRecord.reflect_on_all_associations }
 
@@ -34,10 +25,6 @@ describe ActiveRecord::Base do
   end
 
   describe 'normal(not-worth_saving) subclass' do
-    before :all do
-      class Record < ActiveRecord::Base; end
-    end
-
     describe 'knowing it is NOT worth_saving' do
       subject { Record.worth_saving? }
 
@@ -52,22 +39,15 @@ describe ActiveRecord::Base do
   end
 
   context 'worth_saving subclass with excepted fields' do
-    before :all do
-      class MostlyWorthSavingRecord < ActiveRecord::Base
-        self.table_name = 'records'
-        worth_saving except: :author
-      end
-    end
-
     context 'when field is NOT in the exceptions list' do
       describe 'knowing the field is worth_saving' do
-        subject { MostlyWorthSavingRecord.worth_saving? :title }
+        subject { WorthSavingWithoutAuthorRecord.worth_saving? :title }
 
         it { should eq true }
       end
 
       describe 'having an instance that knows the field is worth_saving' do
-        subject { MostlyWorthSavingRecord.new.worth_saving? :title }
+        subject { WorthSavingWithoutAuthorRecord.new.worth_saving? :title }
 
         it { should eq true }
       end
@@ -75,13 +55,13 @@ describe ActiveRecord::Base do
 
     context 'when a field IS in the exceptions list' do
       describe 'knowing the field is NOT worth_saving' do
-        subject { MostlyWorthSavingRecord.worth_saving? :author }
+        subject { WorthSavingWithoutAuthorRecord.worth_saving? :author }
 
         it { should eq false }
       end
 
       describe 'having an instance that knows the field is NOT worth_saving' do
-        subject { MostlyWorthSavingRecord.new.worth_saving? :author }
+        subject { WorthSavingWithoutAuthorRecord.new.worth_saving? :author }
 
         it { should eq false }
       end

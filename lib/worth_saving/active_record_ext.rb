@@ -7,7 +7,7 @@ module WorthSaving
 
     module ClassMethods
       def worth_saving(except: nil)
-        has_one :worth_saving_draft
+        has_one :worth_saving_draft, as: :recordable
         @except = [except].flatten.compact
         @_is_worth_saving = true
       end

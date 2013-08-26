@@ -4,12 +4,34 @@ require 'worth_saving'
 describe ActiveRecord::Base do
   describe 'worth_saving subclass' do
     describe 'associations' do
-      subject { WorthSavingRecord.reflect_on_all_associations }
+      let(:record) { FactoryGirl.build :worth_saving_record }
+      let(:draft) { record.build_worth_saving_draft }
 
-      its(:size) { should eq 1 }
-      its('first.name') { should eq :worth_saving_draft }
-      its('first.macro') { should eq :has_one }
-      its('first.options') { should eq(as: :recordable) }
+      context 'when record is persisted' do
+        it 'has a worth_saving draft' do
+          record.save
+          draft.save
+          record.worth_saving_draft.should eq draft
+        end
+      end
+
+      context 'when record is not persisted' do
+        it 'has a worth_saving draft' do
+          draft.save
+          record.worth_saving_draft.should eq draft
+        end
+      end
+    end
+
+    describe 'ClassRegistry' do
+      it 'adds class to registry when worth_saving is called' do
+        class SomeClass < ActiveRecord::Base; end
+        WorthSaving::ClassRegistry.should_receive(:add_entry).with SomeClass
+        class SomeClass; worth_saving; end
+      end
+    end
+
+    describe '.worth_saving_classes' do
     end
 
     describe 'knowing it is worth_saving' do

@@ -2,6 +2,7 @@ require 'rubygems'
 require 'pry'
 require 'factory_girl'
 require File.expand_path '../factories', __FILE__
+require 'with_model'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
@@ -44,4 +45,6 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.extend WithModel
 end

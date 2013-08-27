@@ -16,20 +16,67 @@ module WorthSaving
         worth_saving_field? field_name
       end
 
+      def worth_saving_classes
+        _worth_saving_classes.dup
+      end
+
       private
 
       def register_worth_saving_class
-        ClassRegistry.add_entry self
+        _worth_saving_classes << self
       end
 
-      def set_up_options(except: nil)#, scope: nil)
+      def _worth_saving_classes
+        @@worth_saving_classes ||= []
+      end
+
+      def set_up_options(except: nil, scope: nil)
         @_is_worth_saving = true
         @worth_saving_excluded_fields = [except].flatten.compact
+        set_up_scoped_draft scope unless scope.nil?
       end
 
       def worth_saving_field?(field_name)
         return false unless @_is_worth_saving
         !@worth_saving_excluded_fields.include? field_name
+      end
+
+      def set_up_scoped_draft(scope)
+        if @worth_saving_scope = scope
+          @worth_saving_scope_class = scope.to_s.camelcase.constantize
+          unless @worth_saving_scope_class.ancestors.include? ActiveRecord::Base
+            raise 'Scope must be ActiveRecord::Base subclass'
+          end
+        end
+
+        class_eval do
+          def self.worth_saving_scope
+            @worth_saving_scope
+          end
+
+          def self.worth_saving_scope_class
+            @worth_saving_scope_class
+          end
+
+          def worth_saving_draft
+            return super if persisted?
+            find_by_scopeable
+          end
+
+          private
+
+          def self.worth_saving_scopeable_foreign_key
+            @worth_saving_scopeable_foreign_key ||= "#{worth_saving_scope}_id"
+          end
+
+          def worth_saving_scopeable_id
+            send self.class.worth_saving_scopeable_foreign_key
+          end
+
+          def find_by_scopeable
+            WorthSavingDraft.where(scopeable_id: worth_saving_scopeable_id, scopeable_type: self.class.worth_saving_scope_class).first
+          end
+        end
       end
     end
 
@@ -40,5 +87,3 @@ module WorthSaving
     end
   end
 end
-
-ActiveRecord::Base.send :include, WorthSaving::ActiveRecordExt

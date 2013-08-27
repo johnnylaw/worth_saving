@@ -9,6 +9,7 @@ describe ActiveRecord::Base do
       its(:size) { should eq 1 }
       its('first.name') { should eq :worth_saving_draft }
       its('first.macro') { should eq :has_one }
+      its('first.options') { should eq(as: :recordable) }
     end
 
     describe 'knowing it is worth_saving' do

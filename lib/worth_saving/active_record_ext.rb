@@ -60,7 +60,7 @@ module WorthSaving
 
           def worth_saving_draft
             return super if persisted?
-            find_by_scopeable
+            worth_saving_draft_by_scopeable
           end
 
           private
@@ -73,7 +73,7 @@ module WorthSaving
             send self.class.worth_saving_scopeable_foreign_key
           end
 
-          def find_by_scopeable
+          def worth_saving_draft_by_scopeable
             WorthSavingDraft.where(
               scopeable_id: worth_saving_scopeable_id,
               scopeable_type: self.class.worth_saving_scope_class,

@@ -74,7 +74,11 @@ module WorthSaving
           end
 
           def find_by_scopeable
-            WorthSavingDraft.where(scopeable_id: worth_saving_scopeable_id, scopeable_type: self.class.worth_saving_scope_class).first
+            WorthSavingDraft.where(
+              scopeable_id: worth_saving_scopeable_id,
+              scopeable_type: self.class.worth_saving_scope_class,
+              recordable_type: self.class.name
+            ).first
           end
         end
       end

@@ -198,13 +198,19 @@ describe WorthSaving::ActiveRecordExt do
 
       context 'an unsaved ScopedThing' do
         it 'finds the draft by scope' do
-          draft = WorthSavingDraft.create scopeable_id: user.id, scopeable_type: 'User'
+          draft = WorthSavingDraft.create recordable_type: 'ScopedThing', scopeable_id: user.id, scopeable_type: 'User'
           thing.worth_saving_draft.should eq draft
         end
 
-        it 'does not find the wrong draft by scope' do
-          draft = WorthSavingDraft.create scopeable_id: user.id, scopeable_type: 'User'
+        it 'does not find the draft belonging to the wrong scoped object' do
+          draft = WorthSavingDraft.create recordable_type: 'ScopedThing', scopeable_id: user.id, scopeable_type: 'User'
           thing = ScopedThing.new user: user2
+          thing.worth_saving_draft.should be_nil
+        end
+
+        it 'does not find the draft belonging to the wrong recordable' do
+          draft = WorthSavingDraft.create recordable_type: 'OtherTypeOfThing', scopeable_id: user.id, scopeable_type: 'User'
+          thing = ScopedThing.new user: user
           thing.worth_saving_draft.should be_nil
         end
       end

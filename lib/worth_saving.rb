@@ -1,0 +1,2 @@
+module WorthSaving
+end

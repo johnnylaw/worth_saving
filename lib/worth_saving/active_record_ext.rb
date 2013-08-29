@@ -20,6 +20,11 @@ module WorthSaving
         _worth_saving_classes.dup
       end
 
+      # Unspec'd
+      def worth_saving_class_with_name(name)
+        _worth_saving_classes.find{ |klass| klass.name == name.camelcase }
+      end
+
       private
 
       def register_worth_saving_class
@@ -63,14 +68,14 @@ module WorthSaving
             worth_saving_draft_by_scopeable
           end
 
+          def worth_saving_scopeable_id
+            send self.class.worth_saving_scopeable_foreign_key
+          end
+
           private
 
           def self.worth_saving_scopeable_foreign_key
             @worth_saving_scopeable_foreign_key ||= "#{worth_saving_scope}_id"
-          end
-
-          def worth_saving_scopeable_id
-            send self.class.worth_saving_scopeable_foreign_key
           end
 
           def worth_saving_draft_by_scopeable

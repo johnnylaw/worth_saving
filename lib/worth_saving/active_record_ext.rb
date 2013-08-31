@@ -7,7 +7,7 @@ module WorthSaving
 
     module ClassMethods
       def worth_saving(**opts)
-        has_one :worth_saving_draft, as: :recordable
+        has_one :worth_saving_draft, class_name: 'WorthSaving::Draft', as: :recordable
         set_up_options opts
         register_worth_saving_class
       end
@@ -18,6 +18,10 @@ module WorthSaving
 
       def worth_saving_classes
         _worth_saving_classes.dup
+      end
+
+      def worth_saving_class_with_name(name)
+        _worth_saving_classes.find{ |klass| klass.name == name.camelcase }
       end
 
       private
@@ -63,18 +67,32 @@ module WorthSaving
             worth_saving_draft_by_scopeable
           end
 
-          private
-
-          def self.worth_saving_scopeable_foreign_key
-            @worth_saving_scopeable_foreign_key ||= "#{worth_saving_scope}_id"
+          def build_worth_saving_draft(**opts)
+            return super if persisted?
+            build_worth_saving_draft_by_scopeable opts
           end
 
           def worth_saving_scopeable_id
             send self.class.worth_saving_scopeable_foreign_key
           end
 
+          private
+
+          def worth_saving_scopeable
+            self.class.worth_saving_scope_class.find_by_id worth_saving_scopeable_id
+          end
+
+          def build_worth_saving_draft_by_scopeable(opts)
+            opts.merge! recordable_type: self.class.name, scopeable: worth_saving_scopeable
+            WorthSaving::Draft.new opts
+          end
+
+          def self.worth_saving_scopeable_foreign_key
+            @worth_saving_scopeable_foreign_key ||= "#{worth_saving_scope}_id"
+          end
+
           def worth_saving_draft_by_scopeable
-            WorthSavingDraft.where(
+            WorthSaving::Draft.where(
               scopeable_id: worth_saving_scopeable_id,
               scopeable_type: self.class.worth_saving_scope_class,
               recordable_type: self.class.name

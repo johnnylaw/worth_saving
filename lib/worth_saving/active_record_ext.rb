@@ -6,7 +6,7 @@ module WorthSaving
     end
 
     module ClassMethods
-      def worth_saving(**opts)
+      def worth_saving(opts = {})
         has_one :worth_saving_draft, class_name: 'WorthSaving::Draft', as: :recordable
         set_up_options opts
         register_worth_saving_class
@@ -34,10 +34,11 @@ module WorthSaving
         @@worth_saving_classes ||= []
       end
 
-      def set_up_options(except: nil, scope: nil)
+      def set_up_options(opts)
+        opts.reverse_merge! except: nil, scope: nil
         @_is_worth_saving = true
-        @worth_saving_excluded_fields = [except].flatten.compact
-        set_up_scoped_draft scope unless scope.nil?
+        @worth_saving_excluded_fields = [opts[:except]].flatten.compact
+        set_up_scoped_draft opts[:scope] unless opts[:scope].nil?
       end
 
       def worth_saving_field?(field_name)

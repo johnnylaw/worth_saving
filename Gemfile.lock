@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     worth_saving (0.0.1)
+      jquery-rails (~> 3.0)
       rails (~> 4.0.0)
 
 GEM
@@ -50,6 +51,10 @@ GEM
       railties (>= 3.0.0)
     hike (1.2.3)
     i18n (0.6.5)
+    jasmine-jquery-rails (1.5.6)
+    jquery-rails (3.0.4)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -132,6 +137,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   factory_girl_rails (~> 4.2.0)
+  jasmine-jquery-rails (~> 1.5)
   pry
   rspec-rails
   slim

@@ -68,7 +68,7 @@ module WorthSaving
             worth_saving_draft_by_scopeable
           end
 
-          def build_worth_saving_draft(**opts)
+          def build_worth_saving_draft(opts = {})
             return super if persisted?
             build_worth_saving_draft_by_scopeable opts
           end

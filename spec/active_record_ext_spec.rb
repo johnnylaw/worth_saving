@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'worth_saving'
 
 describe WorthSaving::ActiveRecordExt do
   with_model :WorthSavingDraft do

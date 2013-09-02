@@ -10,14 +10,15 @@ Gem::Specification.new do |s|
   s.authors     = ["John Lawrence"]
   s.email       = ["johnonrails@gmail.com"]
   s.homepage    = ""
-  s.summary     = "Helps users recover work"
-  s.description = "Helps users recover work"
+  s.summary     = "Helps users of your app recover work by auto-saving drafts"
+  s.description = "Helps users of your app recover work by auto-saving drafts"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency "rails", "~> 4.0.0"
+  s.add_dependency "jquery-rails", '~>3.0'
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"
@@ -26,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency "slim"
   s.add_development_dependency "with_model", "~> 0.3.2"
+  s.add_development_dependency "jasmine-jquery-rails", "~>1.5"
 end

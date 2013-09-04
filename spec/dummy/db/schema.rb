@@ -11,6 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20130829055309) do
+
+  create_table "pages", force: true do |t|
+    t.integer "user_id"
+    t.string  "title"
+    t.text    "content"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "worth_saving_drafts", force: true do |t|
+    t.integer  "recordable_id"
+    t.string   "recordable_type"
+    t.integer  "scopeable_id"
+    t.string   "scopeable_type"
+    t.text     "info"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "worth_saving_drafts", ["recordable_id", "recordable_type"], name: "worth_saving_draft_recordable_index"
+  add_index "worth_saving_drafts", ["recordable_type", "scopeable_id", "scopeable_type"], name: "worth_saving_draft_scopeable_index"
 
 end

@@ -38,7 +38,7 @@ module WorthSaving
         opts.reverse_merge! except: nil, scope: nil
         @_is_worth_saving = true
         @worth_saving_excluded_fields = [opts[:except]].flatten.compact
-        set_up_scoped_draft opts[:scope] unless opts[:scope].nil?
+        set_up_scoped_draft opts[:scope]# unless opts[:scope].nil?
       end
 
       def worth_saving_field?(field_name)
@@ -54,11 +54,13 @@ module WorthSaving
           end
         end
 
-        class_eval do
-          def self.worth_saving_scope
-            @worth_saving_scope
-          end
+        def worth_saving_scope
+          @worth_saving_scope
+        end
 
+        return if @worth_saving_scope.nil?
+
+        class_eval do
           def self.worth_saving_scope_class
             @worth_saving_scope_class
           end

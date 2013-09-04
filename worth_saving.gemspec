@@ -27,5 +27,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency "slim"
   s.add_development_dependency "with_model", "~> 0.3.2"
+  s.add_development_dependency "jasmine"
   s.add_development_dependency "jasmine-jquery-rails", "~>1.5"
 end

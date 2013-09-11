@@ -3,7 +3,7 @@ PATH
   specs:
     worth_saving (0.0.1)
       jquery-rails
-      rails (~> 3.2.14)
+      rails (>= 3.0.0)
 
 GEM
   remote: https://rubygems.org/

@@ -39,7 +39,7 @@ WorthSaving.Form = function($mainForm) {
   };
 
   var processError = function(info) {
-    displayMessage('Unable to save draft', true);
+    displayMessage(info.responseText || 'Unable to save draft', true);
   };
 
   var setDraftFormAction = function(action) {

@@ -5,4 +5,8 @@ class Page < ActiveRecord::Base
 
   has_many :subpages
   accepts_nested_attributes_for :subpages
+
+  def owner
+    user
+  end
 end

@@ -11,7 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130911060226) do
+ActiveRecord::Schema.define(:version => 20130913060847) do
+
+  create_table "pages", :force => true do |t|
+    t.integer "user_id"
+    t.string  "title"
+    t.text    "content"
+    t.boolean "approved",  :default => false
+    t.string  "page_type"
+    t.string  "position"
+  end
+
+  create_table "subpages", :force => true do |t|
+    t.integer  "page_id"
+    t.string   "subtitle"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.text     "content"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "worth_saving_drafts", :force => true do |t|
     t.integer  "recordable_id"

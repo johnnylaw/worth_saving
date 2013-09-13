@@ -6,6 +6,12 @@ describe WorthSaving::Draft do
       t.string    :name
       t.integer   :age
     end
+
+    model do
+      if Rails.version.match /^3/
+        attr_accessible :name, :age
+      end
+    end
   end
 
   before do

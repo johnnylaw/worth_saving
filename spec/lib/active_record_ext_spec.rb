@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe WorthSaving::ActiveRecordExt do
+  before do
+    Rails.application.config.stub(:filter_parameters).and_return [:redacted_field]
+  end
+
   with_model :WorthSavingDraft do
     table do |t|
       t.integer   :recordable_id
@@ -139,6 +143,12 @@ describe WorthSaving::ActiveRecordExt do
           ImportantThingWithUnimportantFields.worth_saving?(:author).should eq false
           ImportantThingWithUnimportantFields.worth_saving?(:title).should eq false
           ImportantThingWithUnimportantFields.worth_saving?(:content).should eq true
+        end
+
+        context 'Rails.application.filter_params' do
+          it 'should not consider these fields worth_saving' do
+            ImportantThingWithUnimportantFields.worth_saving?(:redacted_field).should eq false
+          end
         end
       end
     end

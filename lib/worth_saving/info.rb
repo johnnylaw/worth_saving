@@ -33,6 +33,7 @@ module WorthSaving
     def set_up_options(opts)
       opts.reverse_merge! except: nil, scope: nil
       @excluded_fields = [opts[:except]].flatten.compact
+      @excluded_fields.concat Rails.application.config.filter_parameters
       set_up_scoped_draft opts[:scope]
     end
 

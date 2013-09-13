@@ -21,8 +21,15 @@ describe WorthSaving::ActiveRecordExt do
   end
 
   with_model :ImportantThing do
+    table do |t|
+      t.string :stuff
+    end
+
     model do
       is_worth_saving
+      if Rails.version.match /^3/
+        attr_accessible :stuff
+      end
     end
   end
 
@@ -212,6 +219,7 @@ describe WorthSaving::ActiveRecordExt do
         it 'finds the draft through the has_one association' do
           thing.save
           draft = WorthSaving::Draft.create recordable_id: thing.id, recordable_type: 'ScopedThing'
+          thing.reload
           thing.worth_saving_draft.should eq draft
         end
       end
@@ -242,6 +250,29 @@ describe WorthSaving::ActiveRecordExt do
 
         its(:recordable) { should eq thing }
         its(:form_data) { should eq 'some info' }
+      end
+    end
+
+    describe 'destruction of worth_saving_draft after save' do
+      let(:thing) { ImportantThing.new stuff: 'Something' }
+
+      context 'new record' do
+        it 'happens after but not before' do
+          draft = thing.create_worth_saving_draft
+          WorthSaving::Draft.find(draft.id).should eq draft
+          thing.save
+          -> { WorthSaving::Draft.find(draft.id).should }.should raise_error ActiveRecord::RecordNotFound
+        end
+      end
+
+      context 'new record' do
+        it 'happens after but not before' do
+          thing.save
+          draft = thing.create_worth_saving_draft
+          WorthSaving::Draft.find(draft.id).should eq draft
+          thing.update_attributes stuff: 'Changed something'
+          -> { WorthSaving::Draft.find(draft.id).should }.should raise_error ActiveRecord::RecordNotFound
+        end
       end
     end
   end

@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 describe WorthSaving::Draft do
+  with_model :Record do
+    table do |t|
+      t.string    :name
+      t.integer   :age
+    end
+  end
+
   before do
     class WorthSaving::Info; end
-    class Record; end
   end
 
   subject { WorthSaving::Draft.table_name }
@@ -81,13 +87,41 @@ describe WorthSaving::Draft do
     end
   end # validation
 
+  describe 'attr_accessible' do
+    subject { WorthSaving::Draft.attr_accessible[:default].to_a.reject(&:empty?) }
+
+    context 'whitelisting attributes is not required' do
+      before do
+        WorthSaving.send :remove_const, :Draft
+        WorthSaving::Info.should_receive(:attribute_whitelisting_required?).and_return false
+        load WorthSaving::Engine.root + 'app/models/worth_saving/draft.rb'
+      end
+
+      it { should be_empty }
+    end
+
+    context 'whitelisting attributes is required' do
+      before do
+        WorthSaving.send :remove_const, :Draft
+        WorthSaving::Info.should_receive(:attribute_whitelisting_required?).and_return true
+        load WorthSaving::Engine.root + 'app/models/worth_saving/draft.rb'
+      end
+
+      it { should include 'scopeable' }
+      it { should include 'recordable_id' }
+      it { should include 'recordable_type' }
+      it { should include 'scopeable_id' }
+      it { should include 'scopeable_type' }
+      it { should include 'form_data' }
+    end
+  end
+
   describe '#reconstituted_record' do
     subject { draft.reconstituted_record }
-    let(:form_data) { 'record%5Bname%5D=John%20Smith&record%5Bage%5D=42' }
-    let(:draft) { stub_model WorthSaving::Draft, recordable_id: 5, recordable_type: 'Record', form_data: form_data }
-    let(:record) { double Record }
 
     context 'recordable_type is missing' do
+      let(:draft) { stub_model WorthSaving::Draft, recordable_type: 'Record' }
+
       before do
         WorthSaving::Info.should_receive(:class_with_name).with('Record').and_return nil
       end
@@ -96,12 +130,21 @@ describe WorthSaving::Draft do
     end
 
     context 'recordable_type is present and name of a class' do
+      let(:draft) { stub_model WorthSaving::Draft, recordable_id: record.id, recordable_type: 'Record', form_data: form_data }
+      let(:record) { Record.create name: 'John Smith', age: nil }
+      let(:form_data) { 'record%5Bname%5D=John%20N%20Smith&record%5Bage%5D=42' }
+
       before do
         WorthSaving::Info.should_receive(:class_with_name).with('Record').and_return Record
-        Record.should_receive(:new).with('id' => 5, 'name' => 'John Smith', 'age' => '42').and_return record
       end
 
-      it { should eq record }
+      its(:id) { should eq record.id }
+      its(:name) { should eq 'John N Smith' }
+      its(:age) { should eq 42 }
     end
+  end
+
+  after :all do
+    load WorthSaving::Engine.root + 'app/models/worth_saving/draft.rb'
   end
 end

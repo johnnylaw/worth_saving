@@ -1,4 +1,8 @@
 class WorthSaving::Draft < ActiveRecord::Base
+  if WorthSaving::Info.attribute_whitelisting_required?
+    attr_accessible :scopeable, :recordable_id, :recordable_type, :scopeable_id, :scopeable_type, :form_data
+  end
+
   self.table_name = 'worth_saving_drafts'
   belongs_to :recordable, polymorphic: true
   belongs_to :scopeable, polymorphic: true
@@ -7,7 +11,10 @@ class WorthSaving::Draft < ActiveRecord::Base
   validate :uniquely_findable, if: ->{ recordable_type && scoped_record? }
 
   def reconstituted_record
-    recordable_class && recordable_class.new(recordable_params)
+    return unless recordable_class
+    record = recordable || recordable_class.new
+    record.attributes = recordable_params
+    record
   end
 
   private
@@ -35,6 +42,6 @@ Be sure to build draft from #{recordable_type} with a non-nil #{scope_name}.
 
   def recordable_params
     params = Rack::Utils.parse_nested_query(form_data)
-    { 'id' => recordable_id }.merge params[recordable_type.underscore]
+    params[recordable_type.underscore]
   end
 end

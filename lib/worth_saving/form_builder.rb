@@ -1,9 +1,5 @@
 module WorthSaving
   class FormBuilder < ActionView::Base.default_form_builder
-    def self.default_interval
-      3
-    end
-
     def text_field(method, options = {})
       process_options! method, options
       super

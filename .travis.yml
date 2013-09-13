@@ -4,5 +4,5 @@ rvm:
   - rbx-19mode
 script:
   - 'cd spec/dummy && bundle exec rake worth_saving:install:migrations'
-  - 'cd spec/dummy && RAILS_ENV=test bundle exec rake db:migrate'
-  - 'bundle exec rspec spec'
+  - 'RAILS_ENV=test bundle exec rake db:migrate'
+  - 'cd ../../ && bundle exec rspec spec'

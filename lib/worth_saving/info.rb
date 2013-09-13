@@ -11,6 +11,10 @@ module WorthSaving
       classes.find{ |klass| klass.name == name.camelcase }
     end
 
+    def self.attribute_whitelisting_required?
+      Rails.version.match(/^3/).present? || defined?(ProtectedAttributes) == 'constant'
+    end
+
     def saves_field?(field)
       !@excluded_fields.include? field
     end

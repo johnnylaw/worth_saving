@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def current_user
-    User.find 2
+    @current_user ||= session[:user_id] ? User.find(session[:user_id]) : nil
   end
 
   def authorized_to_draft_record?(record)

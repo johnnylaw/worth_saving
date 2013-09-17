@@ -8,7 +8,7 @@ module WorthSaving
         @template = template
         @record = record
         @proc = proc
-        @interval = options.delete(:interval) || DEFAULT_INTERVAL
+        @interval = options.delete(:save_interval) || WorthSaving::Engine.config.default_save_interval
         @options = options.merge builder: WorthSaving::FormBuilder
       end
 

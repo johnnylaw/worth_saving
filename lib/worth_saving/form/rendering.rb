@@ -78,7 +78,11 @@ module WorthSaving
         end
 
         def recovery_header
-          @template.content_tag(:div, RECOVERY_MSG, class: 'worth-saving-header-message')
+          @template.content_tag(:div, recovery_message, class: 'worth-saving-header-message')
+        end
+
+        def recovery_message
+          options.delete(:recovery_message) || WorthSaving::Engine.config.default_recovery_message
         end
 
         def draft_status_footer

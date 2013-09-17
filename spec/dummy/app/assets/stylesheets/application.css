@@ -11,3 +11,5 @@
  *= require_self
  *= require worth_saving
  */
+
+textarea { height: 7em; }

@@ -20,6 +20,11 @@ module WorthSaving
       super
     end
 
+    def select(method, choices, options = {}, html_options = {})
+      process_options! method, html_options
+      super
+    end
+
     def hidden_field(method, options = {})
       process_options! method, options
       super

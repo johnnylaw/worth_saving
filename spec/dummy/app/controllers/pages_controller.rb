@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def new
-    @page = Page.new user: User.find(2)
+    @page = Page.new user: current_user
     build_subpage
 
     render 'form'

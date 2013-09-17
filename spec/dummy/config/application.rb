@@ -10,6 +10,7 @@ require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
 require "worth_saving"
+require 'slim'
 
 module Dummy
   class Application < Rails::Application

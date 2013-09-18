@@ -8,6 +8,8 @@ require 'rspec/autorun'
 require 'factory_girl_rails'
 require 'support/features'
 require 'database_cleaner'
+require 'coveralls'
+Coveralls.wear!
 
 Rails.backtrace_cleaner.remove_silencers!
 

@@ -1,0 +1,53 @@
+= worth_saving_form_for @page, save_interval: 2 do |f|
+  - if @page.errors.any?
+    #errorExplanation
+      h2 "#{pluralize(@page.errors.count, 'error')} prohibited this user from being saved:"
+      ul
+      - @page.errors.full_messages.each do |msg|
+        li= msg
+
+  .field
+    = f.hidden_field :user_id
+
+  .field
+    = f.label :title
+    br
+    = f.text_field :title
+
+  .field
+    = f.label :approved
+    br
+    = f.check_box :approved
+
+  .field
+    = f.label :page_type
+    br
+    = f.radio_button :page_type, 'front'
+    = f.label :page_type_front, 'Front'
+    = f.radio_button :page_type, 'inner'
+    = f.label :page_type_inner, 'Inner'
+
+  .field
+    = f.label :position
+    br
+    = f.select :position, ['', 'Left', 'Center', 'Right']
+
+  .field
+    = f.label :content
+    br
+    = f.text_area :content
+
+  = f.fields_for :subpages do |subpage_form|
+    fieldset
+      .field
+      = subpage_form.label :subtitle
+      br
+      = subpage_form.text_field :subtitle
+
+      .field
+      = subpage_form.label :content, 'Subpage content'
+      br
+      = subpage_form.text_area :content
+
+  .actions
+    = f.submit

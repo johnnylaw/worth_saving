@@ -16,7 +16,7 @@ module Features
       create_reasonable_browswer_size
     end
 
-    def given_users(*names)
+    def given_user(*names)
       names.map do |name|
         FactoryGirl.create :user, name: name
       end
@@ -74,7 +74,7 @@ module Features
     end
 
     def chill_out_long_enough_to_draft
-      sleep find('form#new_page')['data-worth-saving-interval'].to_i
+      sleep(find('form')['data-worth-saving-interval'].to_i + 0.5)
     end
 
     private

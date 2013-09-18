@@ -9,7 +9,7 @@ module WorthSaving
       def is_worth_saving(opts = {})
         class_eval do
           has_one :worth_saving_draft, class_name: 'WorthSaving::Draft', as: :recordable
-          after_save :destroy_worth_saving_draft
+          before_save :destroy_worth_saving_draft
 
           @worth_saving_info = WorthSaving::Info.new self, opts
 

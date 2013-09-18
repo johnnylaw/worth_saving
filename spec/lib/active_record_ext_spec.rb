@@ -223,6 +223,18 @@ describe WorthSaving::ActiveRecordExt do
           thing.worth_saving_draft.should eq draft
         end
       end
+
+      context "an unsaved unscoped thing" do
+        subject { ImportantThing.new }
+        let(:thing) { ImportantThing.new }
+        let(:draft) { thing.build_worth_saving_draft }
+
+        before do
+          draft.save
+        end
+
+        its(:worth_saving_draft) { should eq draft }
+      end
     end
 
     describe '#build_worth_saving_draft' do
@@ -253,7 +265,7 @@ describe WorthSaving::ActiveRecordExt do
       end
     end
 
-    describe 'destruction of worth_saving_draft after save' do
+    describe 'destruction of worth_saving_draft during save' do
       let(:thing) { ImportantThing.new stuff: 'Something' }
 
       context 'new record' do
@@ -265,7 +277,7 @@ describe WorthSaving::ActiveRecordExt do
         end
       end
 
-      context 'new record' do
+      context 'persisted record' do
         it 'happens after but not before' do
           thing.save
           draft = thing.create_worth_saving_draft

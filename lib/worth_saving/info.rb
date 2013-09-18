@@ -38,7 +38,15 @@ module WorthSaving
     end
 
     def set_up_scoped_draft(scope)
-      return unless @scope = scope
+      unless @scope = scope
+        @klass.class_eval do
+          def worth_saving_draft
+            return super if persisted?
+            @worth_saving_draft ||= WorthSaving::Draft.where(recordable_id: nil, recordable_type: self.class.name).first
+          end
+        end
+        return
+      end
       @scope_class = scope.to_s.camelcase.constantize
 
       @klass.class_eval do

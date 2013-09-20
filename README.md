@@ -15,7 +15,15 @@ Install worth_saving as a gem:
 
     gem install worth_saving
 
-Include worth_saving in your Gemfile with `gem 'worth_saving'`.
+or include worth_saving in your Gemfile with `gem 'worth_saving'` and running `bundle install`.
+
+One database table is required, which can be created with
+
+    rake worth_saving:install:migrations
+
+and
+
+    rake db:migrate
 
 To completely set up your application to work you will need to include the following in one of your javascript manifests that is included wherever you will use worth_saving:
 

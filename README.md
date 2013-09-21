@@ -17,7 +17,7 @@ Install worth_saving as a gem:
 
 or include worth_saving in your Gemfile with `gem 'worth_saving'` and running `bundle install`.
 
-One database table is required, which can be created with
+One database table called `worth_saving_drafts` is required, which can be created with
 
     rake worth_saving:install:migrations
 

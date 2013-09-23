@@ -16,10 +16,8 @@ module Features
       create_reasonable_browswer_size
     end
 
-    def given_user(*names)
-      names.map do |name|
-        FactoryGirl.create :user, name: name
-      end
+    def given_user(name)
+      FactoryGirl.create :user, name: name
     end
 
     def fill_in_form(opts = {})

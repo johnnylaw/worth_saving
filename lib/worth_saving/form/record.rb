@@ -25,14 +25,9 @@ module WorthSaving
         end
 
         def recovery?
-          return @recovery if @recovery == true || @recovery == false
-          if draft.nil?
-            return @recovery = false
-          elsif draft.reconstituted_record.attributes == object.attributes
-            draft.destroy
-            return @recovery = false
-          end
-          @recovery = true
+          # TODO: If a draft is present but reconstituting the draft will provide no additional information
+          #       about the record, delete the draft and make recovery false
+          @recovery ||= draft.present?
         end
 
         def rescued_object

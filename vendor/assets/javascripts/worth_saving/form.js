@@ -8,6 +8,11 @@ WorthSaving.Form = function($mainForm) {
   var $messageDiv = $('#worth-saving-form-message-' + formId);
 
   var startCountdown = function() {
+    if(countdown) {
+      console.log('returning because countdown is set')
+      return;
+    }
+    console.log('starting countdown')
     countdown = true;
     setTimeout(submitDraftForm, interval);
   };
@@ -21,6 +26,7 @@ WorthSaving.Form = function($mainForm) {
   };
 
   var submitDraftForm = function() {
+    WorthSaving.prepareThirdPartyEditorsForSave();
     prepareDraftForm();
     resetCountdown();
     $.ajax({
@@ -58,7 +64,11 @@ WorthSaving.Form = function($mainForm) {
   };
 
   $worthSavingFields.on('keyup change', function() {
-    countdown || startCountdown();
+    startCountdown();
   });
+
+  if(typeof tinymce !== 'undefined') {
+    WorthSaving.tinymceInit(startCountdown);
+  }
 };
 

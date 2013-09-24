@@ -4,6 +4,7 @@ require 'worth_saving/active_record_ext'
 require 'worth_saving/form_builder'
 require 'worth_saving/form'
 require 'worth_saving/action_view_ext'
+require 'worth_saving/drafts_controller_methods'
 
 module WorthSaving
 end

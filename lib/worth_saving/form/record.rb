@@ -37,7 +37,7 @@ module WorthSaving
         def rescued_record
           if record.is_a? Array
             rescued_record = record.dup
-            rescued_record.last = rescued_object
+            rescued_record[-1] = rescued_object
           else
             rescued_record = rescued_object
           end

@@ -45,7 +45,8 @@ module WorthSaving
         end
 
         def draft_form_options
-          url = @template.worth_saving.drafts_path
+          drafts_path_prefix = namespace ? "#{namespace}_" : ''
+          url = @template.worth_saving.send "#{drafts_path_prefix}drafts_path"
           { url: url, html: { data: { worth_saving_draft_form_id: form_id } } }
         end
 

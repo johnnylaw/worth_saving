@@ -75,6 +75,10 @@ module Features
       sleep(find('form')['data-worth-saving-interval'].to_i + 0.5)
     end
 
+    def expect_draft_form_to_have_path(path)
+      expect(page.find('form#new_draft', visible: false)['action']).to match path
+    end
+
     private
 
     def form_factory(opts)

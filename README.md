@@ -91,8 +91,11 @@ Example (How you might implement these methods if using CanCan; #authorized_to_d
       end
     end
 
+#### TinyMCE
+worth_saving works with TinyMCE versions 3 and 4
+
 #### Upcoming changes
 * support for simple_form
-* support for TinyMCE and CKEditor (currently the values in the editor window can be overlooked, as the JS simply grabs the value of the textarea or input)
+* support for CKEditor
 * support for additional namespaced DraftsControllers that inherit from controllers in your application (e.g. class WorthSaving::Admin::DraftsController < AdminController accessed automatically when invoking worth_saving_form_for [:admin, @record] ...)
 

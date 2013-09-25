@@ -1,4 +1,5 @@
-= worth_saving_form_for @page, save_interval: 2 do |f|
+- form_object = params[:controller].match(/^admin/) ? [:admin, @page] : @page
+= worth_saving_form_for form_object, save_interval: 2 do |f|
   - if @page.errors.any?
     #errorExplanation
       h2 "#{pluralize(@page.errors.count, 'error')} prohibited this user from being saved:"

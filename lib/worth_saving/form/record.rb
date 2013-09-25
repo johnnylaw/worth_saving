@@ -8,6 +8,17 @@ module WorthSaving
       module InstanceMethods
         private
 
+        def namespace
+          return @namespace unless @namespace.nil?
+          @namespace = false
+          if record.is_a?(Array)
+            space = record.first
+            if WorthSaving::Engine.config.additional_namespaces.include?(space)
+              @namespace = space
+            end
+          end
+        end
+
         def record
           @record
         end
@@ -41,6 +52,7 @@ module WorthSaving
           else
             rescued_record = rescued_object
           end
+          rescued_record
         end
       end
     end

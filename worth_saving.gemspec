@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "jasmine-jquery-rails", "~>1.5"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "tinymce-rails"
+  s.add_development_dependency "ckeditor_rails"
 
   s.test_files = Dir["spec/**/*"]
 end

@@ -14,4 +14,4 @@
 //= require jquery_ujs
 //= require worth_saving
 //= require tinymce-jquery
-
+//= require ckeditor-jquery

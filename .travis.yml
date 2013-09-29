@@ -9,3 +9,6 @@ script:
   - 'cd spec/dummy && bundle exec rake worth_saving:install:migrations'
   - 'RAILS_ENV=test bundle exec rake db:migrate'
   - 'cd ../../ && bundle exec rspec spec'
+branches:
+  only:
+    - master

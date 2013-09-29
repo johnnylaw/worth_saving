@@ -57,4 +57,16 @@ feature 'WorthSaving' do
       page.should have_content "Not authorized to draft this Page"
     end
   end
+
+  scenario "No user logged in, draft cannot save and provides error message", js: true do
+    logout
+    visit new_page_path
+    within '.worth-saving-standard-form-container .worth-saving-form-container' do
+      fill_in 'Title', with: 'gibberish'
+    end
+    chill_out_long_enough_to_draft
+    within '.worth-saving-form-message.error' do
+      page.should have_content "Cannot save draft for new record without scopeable record. Be sure to build draft from Page with a non-nil user."
+    end
+  end
 end

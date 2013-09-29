@@ -31,7 +31,7 @@ module WorthSaving
           if @draft.save
             render json: { message: 'Draft saved', worthSavingDraft: { action: saved_draft_path } }
           else
-            render json: { error: 'Unable to save draft' }
+            render json: { error: @draft.errors.full_messages.first }
           end
         end
 

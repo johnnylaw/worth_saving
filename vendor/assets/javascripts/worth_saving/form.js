@@ -9,10 +9,8 @@ WorthSaving.Form = function($mainForm) {
 
   var startCountdown = function() {
     if(countdown) {
-      console.log('returning because countdown is set')
       return;
     }
-    console.log('starting countdown')
     countdown = true;
     setTimeout(submitDraftForm, interval);
   };
@@ -40,8 +38,12 @@ WorthSaving.Form = function($mainForm) {
   };
 
   var processSuccessfulResponse = function(info) {
-    setDraftFormAction(info.worthSavingDraft.action);
-    displayMessage(info.message, info.error !== undefined);
+    if(info.error !== undefined) {
+      displayMessage(info.error, true);
+    } else {
+      setDraftFormAction(info.worthSavingDraft.action);
+      displayMessage(info.message);
+    }
   };
 
   var processError = function(info) {

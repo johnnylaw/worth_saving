@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/johnnylaw/worth_saving"
   s.summary     = "Helps users of your app recover work by auto-saving drafts"
   s.description = "Helps users of your app recover work by auto-saving drafts"
+  s.license     = 'MIT'
 
   s.files = Dir["{app,config,db,lib,vendor}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 

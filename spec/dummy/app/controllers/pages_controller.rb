@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  before_filter :set_up_html_editor
-
+  # before_filter :set_up_html_editor
+  #
   def new
     @page = Page.new user: current_user
     build_subpage
@@ -34,10 +34,10 @@ class PagesController < ApplicationController
 
   private
 
-  def set_up_html_editor
-    @tinymce = true if editor == 'tinymce'
-  end
-
+  # def set_up_html_editor
+  #   @tinymce = true if editor == 'tinymce'
+  # end
+  #
   def page_params
     if WorthSaving::Info.attribute_whitelisting_required?
       params[:page]

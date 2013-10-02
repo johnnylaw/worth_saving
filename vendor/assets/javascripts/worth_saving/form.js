@@ -69,8 +69,6 @@ WorthSaving.Form = function($mainForm) {
     startCountdown();
   });
 
-  if(typeof tinymce !== 'undefined') {
-    WorthSaving.tinymceInit(startCountdown);
-  }
+  WorthSaving.initializeThirdPartyEditors(startCountdown);
 };
 

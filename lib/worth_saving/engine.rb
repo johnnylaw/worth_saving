@@ -12,7 +12,7 @@ EOS
         space = space.to_s.camelize
         WorthSaving.module_eval <<EOS
           module #{space}
-            class DraftsController < Rails::Application::#{space}Controller
+            class DraftsController < ::#{space}Controller
               include WorthSaving::DraftsControllerMethods
             end
           end

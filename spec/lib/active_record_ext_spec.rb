@@ -273,7 +273,7 @@ describe WorthSaving::ActiveRecordExt do
           draft = thing.create_worth_saving_draft
           WorthSaving::Draft.find(draft.id).should eq draft
           thing.save
-          -> { WorthSaving::Draft.find(draft.id).should }.should raise_error ActiveRecord::RecordNotFound
+          -> { WorthSaving::Draft.find(draft.id) }.should raise_error ActiveRecord::RecordNotFound
         end
       end
 
@@ -283,7 +283,7 @@ describe WorthSaving::ActiveRecordExt do
           draft = thing.create_worth_saving_draft
           WorthSaving::Draft.find(draft.id).should eq draft
           thing.update_attributes stuff: 'Changed something'
-          -> { WorthSaving::Draft.find(draft.id).should }.should raise_error ActiveRecord::RecordNotFound
+          -> { WorthSaving::Draft.find(draft.id) }.should raise_error ActiveRecord::RecordNotFound
         end
       end
     end

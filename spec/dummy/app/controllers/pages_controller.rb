@@ -5,7 +5,7 @@ class PagesController < ApplicationController
     @page = Page.new user: current_user
     build_subpage
 
-    render 'form'
+    render form
   end
 
   def create
@@ -15,7 +15,7 @@ class PagesController < ApplicationController
       redirect_to edit_page_path @page
     else
       flash[:error] = 'Could not save'
-      render 'form'
+      render form
     end
   end
 
@@ -23,7 +23,7 @@ class PagesController < ApplicationController
     @page = Page.find params[:id]
     build_subpage
 
-    render 'form'
+    render form
   end
 
   def update

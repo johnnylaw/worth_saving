@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "coveralls"
   s.add_development_dependency "tinymce-rails"
   s.add_development_dependency "ckeditor_rails"
+  s.add_development_dependency "simple_form"
 
   s.test_files = Dir["spec/**/*"]
 end

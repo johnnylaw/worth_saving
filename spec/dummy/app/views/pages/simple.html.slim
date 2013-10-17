@@ -1,0 +1,23 @@
+- form_object = params[:controller].match(/^admin/) ? [:admin, @page] : @page
+= worth_saving_form_for form_object, parent_builder: SimpleForm::FormBuilder, save_interval: 2 do |f|
+  = f.hidden_field :user_id
+
+  = f.input :title, as: :date
+
+  = f.input :approved
+
+  = f.input :page_type, as: :radio_buttons
+
+  = f.input :position, as: :tel
+
+  = f.input :content, class: 'tinymce'
+
+  = f.fields_for :subpages do |subpage_form|
+    fieldset
+      = subpage_form.input :subtitle
+      = subpage_form.input :content, class: 'tinymce'
+
+  .actions
+    = f.submit
+
+= tinymce if editor == 'tinymce'

@@ -20,7 +20,9 @@ describe WorthSaving::FormBuilderMethods do
 
     [:text_field, :hidden_field, :text_area, :search_field,
     :telephone_field, :phone_field, :url_field, :email_field,
-    :number_field, :range_field].each do |helper|
+    :number_field, :range_field, :color_field, :date_field,
+    :datetime_field, :datetime_local_field, :month_field,
+    :week_field, :time_field].each do |helper|
       describe "##{helper}" do
         subject { form.send helper, :content, class: 'some class' }
         it { should eq '<input class="some class" data-worth-saving="true" />' }
@@ -52,8 +54,29 @@ describe WorthSaving::FormBuilderMethods do
       it { should eq '<select class="some class" data-worth-saving="true"></select>' }
     end
 
-    #TODO: collection_check_boxes, collection_radio_buttons, datetime_select, grouped_collection_select,
-    #      time_select, time_zone_select
+    describe '#collection_check_boxes' do
+      pending
+    end
+
+    describe '#collection_radio_buttons' do
+      pending
+    end
+
+    describe '#datetime_select' do
+      pending
+    end
+
+    describe '#grouped_collection_select' do
+      pending
+    end
+
+    describe '#time_select' do
+      pending
+    end
+
+    describe '#time_zone_select' do
+      pending
+    end
 
     describe 'Support for simple_form' do
       describe '#input' do
@@ -92,6 +115,30 @@ describe WorthSaving::FormBuilderMethods do
         subject { form.collection_select(:content, [], :id, :name, { worth_saving: false }, class: 'some class') }
         it { should eq '<select class="some class" ></select>' }
       end
+
+      describe '#collection_check_boxes' do
+        pending
+      end
+
+      describe '#collection_radio_buttons' do
+        pending
+      end
+
+      describe '#datetime_select' do
+        pending
+      end
+
+      describe '#grouped_collection_select' do
+        pending
+      end
+
+      describe '#time_select' do
+        pending
+      end
+
+      describe '#time_zone_select' do
+        pending
+      end
     end
   end
 
@@ -108,6 +155,49 @@ describe WorthSaving::FormBuilderMethods do
     describe '#radio_button' do
       subject { form.radio_button(:content, 'blue', class: 'some class') }
       it { should eq '<input class="some class"  />' }
+    end
+
+    describe '#check_box' do
+      subject { form.check_box(:content, worth_saving: false, class: 'some class') }
+      it { should eq '<input class="some class"  />' }
+    end
+
+    describe '#date_select' do
+      subject { form.date_select(:content, { worth_saving: false }, class: 'some class') }
+      it { should eq '<select class="some class" ></select>' }
+    end
+
+    describe '#collection_select' do
+      subject { form.collection_select(:content, [], :id, :name, { worth_saving: false }, class: 'some class') }
+      it { should eq '<select class="some class" ></select>' }
+    end
+
+    # collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    describe '#collection_check_boxes' do
+      pending
+    end
+
+    # collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    describe '#collection_radio_buttons' do
+      pending
+    end
+
+    describe '#datetime_select' do
+      pending
+    end
+
+    # grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = {}, html_options = {})
+    describe '#grouped_collection_select' do
+      pending
+    end
+
+    describe '#time_select' do
+      pending
+    end
+
+    # time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
+    describe '#time_zone_select' do
+      pending
     end
   end
 end

@@ -1,7 +1,9 @@
 class MockFormBuilder
   [:text_field, :hidden_field, :text_area, :search_field,
   :telephone_field, :phone_field, :url_field, :email_field,
-  :number_field, :range_field, :input].each do |meth|
+  :number_field, :range_field, :input, :color_field, :date_field,
+  :datetime_field, :datetime_local_field, :month_field,
+  :week_field, :time_field].each do |meth|
     class_eval <<-EOS
       def #{meth}(method, options = {})
         mock_field options

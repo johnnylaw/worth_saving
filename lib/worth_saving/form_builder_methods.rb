@@ -40,6 +40,11 @@ module WorthSaving
         super
       end
 
+      def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+        process_options! method, html_options, options
+        super
+      end
+
       def fields_for(record_name, options = {}, &bloc)
         options[:builder] = options[:builder].superclass unless object.worth_saving? record_name
         super

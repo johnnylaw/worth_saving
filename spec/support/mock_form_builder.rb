@@ -18,10 +18,14 @@ class MockFormBuilder
   end
 
   def date_select(method, options = {}, html_options = {})
-    mock_field html_options
+    %Q{<select #{mock_class_attribute(html_options[:class])} #{mock_data_attributes(html_options[:data])}></select>}
   end
 
   def select(method, choices, options = {}, html_options = {})
+    %Q{<select #{mock_class_attribute(html_options[:class])} #{mock_data_attributes(html_options[:data])}></select>}
+  end
+
+  def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     %Q{<select #{mock_class_attribute(html_options[:class])} #{mock_data_attributes(html_options[:data])}></select>}
   end
 

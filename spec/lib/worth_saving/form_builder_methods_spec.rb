@@ -39,13 +39,21 @@ describe WorthSaving::FormBuilderMethods do
 
     describe '#date_select' do
       subject { form.date_select(:content, {}, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
+      it { should eq '<select class="some class" data-worth-saving="true"></select>' }
     end
 
     describe '#select' do
       subject { form.select(:content, [], {}, class: 'some class') }
       it { should eq '<select class="some class" data-worth-saving="true"></select>' }
     end
+
+    describe '#collection_select' do
+      subject { form.collection_select(:content, [], :id, :name, {}, class: 'some class') }
+      it { should eq '<select class="some class" data-worth-saving="true"></select>' }
+    end
+
+    #TODO: collection_check_boxes, collection_radio_buttons, datetime_select, grouped_collection_select,
+    #      time_select, time_zone_select
 
     describe 'Support for simple_form' do
       describe '#input' do
@@ -77,7 +85,12 @@ describe WorthSaving::FormBuilderMethods do
 
       describe '#date_select' do
         subject { form.date_select(:content, { worth_saving: false }, class: 'some class') }
-        it { should eq '<input class="some class"  />' }
+        it { should eq '<select class="some class" ></select>' }
+      end
+
+      describe '#collection_select' do
+        subject { form.collection_select(:content, [], :id, :name, { worth_saving: false }, class: 'some class') }
+        it { should eq '<select class="some class" ></select>' }
       end
     end
   end

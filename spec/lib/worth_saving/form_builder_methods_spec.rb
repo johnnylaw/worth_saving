@@ -18,59 +18,40 @@ describe WorthSaving::FormBuilderMethods do
       form_model_object.should_receive(:worth_saving?).with(:content).and_return true
     end
 
-    describe '#text_field' do
-      subject { form.text_field(:content, class: 'some class') }
+    [:text_field, :hidden_field, :text_area, :search_field,
+    :telephone_field, :phone_field, :url_field, :email_field,
+    :number_field, :range_field].each do |helper|
+      describe "##{helper}" do
+        subject { form.send helper, :content, class: 'some class' }
+        it { should eq '<input class="some class" data-worth-saving="true" />' }
+      end
+    end
+
+    describe '#radio_button' do
+      subject { form.radio_button(:content, 'blue', class: 'some class') }
       it { should eq '<input class="some class" data-worth-saving="true" />' }
     end
 
-    describe '#hidden_field' do
-      subject { form.hidden_field(:content, class: 'some class') }
+    describe '#check_box' do
+      subject { form.check_box(:content, class: 'some class') }
       it { should eq '<input class="some class" data-worth-saving="true" />' }
     end
 
-    describe '#text_area' do
-      subject { form.text_area(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#search_field' do
-      subject { form.search_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#telephone_field' do
-      subject { form.telephone_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#phone_field' do
-      subject { form.phone_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#url_field' do
-      subject { form.url_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#email_field' do
-      subject { form.email_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#number_field' do
-      subject { form.number_field(:content, class: 'some class') }
-      it { should eq '<input class="some class" data-worth-saving="true" />' }
-    end
-
-    describe '#range_field' do
-      subject { form.range_field(:content, class: 'some class') }
+    describe '#date_select' do
+      subject { form.date_select(:content, {}, class: 'some class') }
       it { should eq '<input class="some class" data-worth-saving="true" />' }
     end
 
     describe '#select' do
       subject { form.select(:content, [], {}, class: 'some class') }
       it { should eq '<select class="some class" data-worth-saving="true"></select>' }
+    end
+
+    describe 'Support for simple_form' do
+      describe '#input' do
+        subject { form.input(:content, class: 'some class') }
+        it { should eq '<input class="some class" data-worth-saving="true" />' }
+      end
     end
 
     context 'worth_saving option is fed as false' do
@@ -83,6 +64,21 @@ describe WorthSaving::FormBuilderMethods do
         subject { form.select(:content, [], { worth_saving: false }, class: 'some class') }
         it { should eq '<select class="some class" ></select>' }
       end
+
+      describe '#radio_button' do
+        subject { form.radio_button(:content, 'blue', worth_saving: false, class: 'some class') }
+        it { should eq '<input class="some class"  />' }
+      end
+
+      describe '#check_box' do
+        subject { form.check_box(:content, worth_saving: false, class: 'some class') }
+        it { should eq '<input class="some class"  />' }
+      end
+
+      describe '#date_select' do
+        subject { form.date_select(:content, { worth_saving: false }, class: 'some class') }
+        it { should eq '<input class="some class"  />' }
+      end
     end
   end
 
@@ -93,6 +89,11 @@ describe WorthSaving::FormBuilderMethods do
 
     describe '#email_field' do # not all simple fields need to be tested for false case
       subject { form.email_field(:content, class: 'some class') }
+      it { should eq '<input class="some class"  />' }
+    end
+
+    describe '#radio_button' do
+      subject { form.radio_button(:content, 'blue', class: 'some class') }
       it { should eq '<input class="some class"  />' }
     end
   end

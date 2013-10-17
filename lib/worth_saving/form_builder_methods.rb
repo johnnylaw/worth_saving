@@ -3,7 +3,7 @@ module WorthSaving
     SIMPLE_FIELD_HELPERS = [
       :text_field, :hidden_field, :text_area, :search_field,
       :telephone_field, :phone_field, :url_field, :email_field,
-      :number_field, :range_field
+      :number_field, :range_field, :input
     ]
 
     def self.included(base)
@@ -18,11 +18,6 @@ module WorthSaving
             super
           end
         EOS
-      end
-
-      def input(method, input_options = {})
-        process_options! method, input_options
-        super
       end
 
       def radio_button(method, tag_value, options = {})
@@ -41,7 +36,7 @@ module WorthSaving
       end
 
       def date_select(method, options = {}, html_options = {})
-        process_options! method, html_options
+        process_options! method, html_options, options
         super
       end
 

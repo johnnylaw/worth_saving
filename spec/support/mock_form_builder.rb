@@ -1,12 +1,24 @@
 class MockFormBuilder
   [:text_field, :hidden_field, :text_area, :search_field,
   :telephone_field, :phone_field, :url_field, :email_field,
-  :number_field, :range_field].each do |meth|
+  :number_field, :range_field, :input].each do |meth|
     class_eval <<-EOS
       def #{meth}(method, options = {})
         mock_field options
       end
     EOS
+  end
+
+  def radio_button(method, tag_value, options = {})
+    mock_field options
+  end
+
+  def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
+    mock_field options
+  end
+
+  def date_select(method, options = {}, html_options = {})
+    mock_field html_options
   end
 
   def select(method, choices, options = {}, html_options = {})

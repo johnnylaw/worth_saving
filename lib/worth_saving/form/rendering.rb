@@ -93,7 +93,7 @@ module WorthSaving
         end
 
         def form_id
-          @form_id ||= WorthSaving::FormBuilder.next_form_id
+          @form_id ||= WorthSaving::Form::Base.next_form_id
         end
       end
     end

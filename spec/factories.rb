@@ -25,4 +25,8 @@ EOS
     subtitle  'My Not-so-big Subtitle'
     content   'This is some content that goes in here.  Not a lot.'
   end
+
+  factory :author do
+    name 'Benjamin Franklin'
+  end
 end

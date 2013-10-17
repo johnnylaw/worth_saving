@@ -29,6 +29,11 @@
     = f.label :page_type_inner, 'Inner'
 
   .field
+    = f.label :author
+    br
+    = f.collection_select :author_id, Author.all, :id, :name, prompt: true
+
+  .field
     = f.label :position
     br
     = f.select :position, ['', 'Left', 'Center', 'Right']

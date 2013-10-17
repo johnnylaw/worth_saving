@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913060847) do
+ActiveRecord::Schema.define(:version => 20131017041939) do
+
+  create_table "authors", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "pages", :force => true do |t|
     t.integer "user_id"
@@ -20,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130913060847) do
     t.boolean "approved",  :default => false
     t.string  "page_type"
     t.string  "position"
+    t.integer "author_id"
   end
 
   create_table "subpages", :force => true do |t|

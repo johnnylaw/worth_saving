@@ -55,7 +55,8 @@ describe WorthSaving::FormBuilderMethods do
     end
 
     describe '#collection_check_boxes' do
-      pending
+      subject { form.collection_check_boxes(:content, [], :id, :name, {}, class: 'some class') }
+      it { should eq '<input class="some class" data-worth-saving="true" />' }
     end
 
     describe '#collection_radio_buttons' do
@@ -117,7 +118,8 @@ describe WorthSaving::FormBuilderMethods do
       end
 
       describe '#collection_check_boxes' do
-        pending
+        subject { form.collection_check_boxes(:content, [], :id, :name, { worth_saving: false }, class: 'some class') }
+        it { should eq '<input class="some class"  />' }
       end
 
       describe '#collection_radio_buttons' do
@@ -158,23 +160,23 @@ describe WorthSaving::FormBuilderMethods do
     end
 
     describe '#check_box' do
-      subject { form.check_box(:content, worth_saving: false, class: 'some class') }
+      subject { form.check_box(:content, class: 'some class') }
       it { should eq '<input class="some class"  />' }
     end
 
     describe '#date_select' do
-      subject { form.date_select(:content, { worth_saving: false }, class: 'some class') }
+      subject { form.date_select(:content, {}, class: 'some class') }
       it { should eq '<select class="some class" ></select>' }
     end
 
     describe '#collection_select' do
-      subject { form.collection_select(:content, [], :id, :name, { worth_saving: false }, class: 'some class') }
+      subject { form.collection_select(:content, [], :id, :name, {}, class: 'some class') }
       it { should eq '<select class="some class" ></select>' }
     end
 
-    # collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     describe '#collection_check_boxes' do
-      pending
+      subject { form.collection_check_boxes(:content, [], :id, :name, {}, class: 'some class') }
+      it { should eq '<input class="some class"  />' }
     end
 
     # collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)

@@ -31,6 +31,10 @@ class MockFormBuilder
     %Q{<select #{mock_class_attribute(html_options[:class])} #{mock_data_attributes(html_options[:data])}></select>}
   end
 
+  def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {})
+    mock_field html_options
+  end
+
   private
 
   def mock_field(options)

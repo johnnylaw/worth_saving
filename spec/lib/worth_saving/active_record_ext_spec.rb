@@ -216,24 +216,36 @@ describe WorthSaving::ActiveRecordExt do
       end
 
       context 'a saved Scopedthing' do
-        it 'finds the draft through the has_one association' do
-          thing.save
-          draft = WorthSaving::Draft.create recordable_id: thing.id, recordable_type: 'ScopedThing'
-          thing.reload
-          thing.worth_saving_draft.should eq draft
+        context 'a draft of the record exists with the right scopeable' do
+          it 'returns the draft' do
+            thing.save
+            draft = WorthSaving::Draft.create recordable: thing, scopeable: user
+            thing.reload
+            thing.worth_saving_draft.should eq draft
+          end
+        end
+
+        context 'a draft of the record exists but with different scopeable' do
+          it 'does NOT return a draft' do
+            thing.save
+            draft = WorthSaving::Draft.create recordable: thing, scopeable: user2
+            thing.reload
+            thing.worth_saving_draft.should be_nil
+          end
         end
       end
 
       context "an unsaved unscoped thing" do
-        subject { ImportantThing.new }
-        let(:thing) { ImportantThing.new }
+        subject(:thing) { ImportantThing.new }
         let(:draft) { thing.build_worth_saving_draft }
 
         before do
           draft.save
         end
 
-        its(:worth_saving_draft) { should eq draft }
+        it 'returns the draft' do
+          ImportantThing.new.worth_saving_draft.should eq draft
+        end
       end
     end
 
@@ -256,11 +268,12 @@ describe WorthSaving::ActiveRecordExt do
         end
       end
 
-      context 'an unsaved ScopedThing' do
+      context 'a saved ScopedThing' do
         let(:thing) { ScopedThing.create user: user }
         subject { thing.build_worth_saving_draft form_data: 'some info' }
 
         its(:recordable) { should eq thing }
+        its(:scopeable) { should eq user }
         its(:form_data) { should eq 'some info' }
       end
     end

@@ -19,6 +19,18 @@ module WorthSaving
       !@excluded_fields.include? field
     end
 
+    def scope_class
+      @scope_class
+    end
+
+    def scopeable_id(recordable)
+      recordable.send scopeable_foreign_key
+    end
+
+    def scopeable(recordable)
+      scope_class.find_by_id scopeable_id(recordable)
+    end
+
     private
 
     def self.classes
@@ -34,65 +46,52 @@ module WorthSaving
       opts.reverse_merge! except: nil, scope: nil
       @excluded_fields = [opts[:except]].flatten.compact
       @excluded_fields.concat Rails.application.config.filter_parameters
-      set_up_scoped_draft opts[:scope]
+      opts[:scope] ? set_up_scoped_draft(opts[:scope]) : set_up_unscoped_draft
+    end
+
+    def set_up_unscoped_draft
+      @klass.class_eval do
+        def worth_saving_draft
+          @worth_saving_draft ||=
+            WorthSaving::Draft.where(recordable_type: self.class.name, recordable_id: id).first
+        end
+      end
     end
 
     def set_up_scoped_draft(scope)
-      unless @scope = scope
-        @klass.class_eval do
-          def worth_saving_draft
-            return super if persisted?
-            @worth_saving_draft ||= WorthSaving::Draft.where(recordable_id: nil, recordable_type: self.class.name).first
-          end
-        end
-        return
-      end
+      @scope = scope
       @scope_class = scope.to_s.camelcase.constantize
 
       @klass.class_eval do
         def build_worth_saving_draft(opts = {})
-          return super if persisted?
-          self.class.worth_saving_info.build_worth_saving_draft_by_scopeable self, opts
+          build_worth_saving_draft_by_scopeable opts
         end
 
         def worth_saving_draft
-          return super if persisted?
-          self.class.worth_saving_info.draft_by_scopeable self
-        end
-      end
-
-      class_eval do
-        def build_worth_saving_draft_by_scopeable(recordable, opts)
-          opts.merge! recordable_type: @klass.name, scopeable: scopeable(recordable)
-          WorthSaving::Draft.new opts
-        end
-
-        def draft_by_scopeable(recordable)
-          WorthSaving::Draft.where(
-            scopeable_id: scopeable_id(recordable),
-            scopeable_type: scope_class,
-            recordable_type: recordable.class.name
-          ).first
+          worth_saving_draft_by_scopeable
         end
 
         private
 
-        def scope_class
-          @scope_class
+        def build_worth_saving_draft_by_scopeable(opts)
+          opts.merge! recordable: self, scopeable: self.class.worth_saving_info.scopeable(self)
+          WorthSaving::Draft.new opts
         end
 
-        def scopeable_id(recordable)
-          recordable.send scopeable_foreign_key
-        end
-
-        def scopeable(recordable)
-          scope_class.find_by_id scopeable_id recordable
-        end
-
-        def scopeable_foreign_key
-          @scopeable_foreign_key ||= "#{@scope}_id"
+        def worth_saving_draft_by_scopeable
+          info = self.class.worth_saving_info
+          WorthSaving::Draft.where(
+            recordable_type: self.class.name,
+            recordable_id: id,
+            scopeable_type: info.scope_class,
+            scopeable_id: info.scopeable_id(self)
+          ).first
         end
       end
+    end
+
+    def scopeable_foreign_key
+      @scopeable_foreign_key ||= "#{@scope}_id"
     end
   end
 end

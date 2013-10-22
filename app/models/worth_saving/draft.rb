@@ -1,6 +1,6 @@
 class WorthSaving::Draft < ActiveRecord::Base
   if WorthSaving::Info.attribute_whitelisting_required?
-    attr_accessible :scopeable, :recordable_id, :recordable_type, :scopeable_id, :scopeable_type, :form_data
+    attr_accessible :scopeable, :recordable, :recordable_id, :recordable_type, :scopeable_id, :scopeable_type, :form_data
   end
 
   self.table_name = 'worth_saving_drafts'

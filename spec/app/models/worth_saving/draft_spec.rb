@@ -113,12 +113,14 @@ describe WorthSaving::Draft do
         load WorthSaving::Engine.root + 'app/models/worth_saving/draft.rb'
       end
 
+      it { should include 'recordable' }
       it { should include 'scopeable' }
-      it { should include 'recordable_id' }
       it { should include 'recordable_type' }
-      it { should include 'scopeable_id' }
+      it { should include 'recordable_id' }
       it { should include 'scopeable_type' }
+      it { should include 'scopeable_id' }
       it { should include 'form_data' }
+      its(:size) { should eq 7 }
     end
   end
 

@@ -1,12 +1,17 @@
 require "worth_saving/engine"
-require 'worth_saving/info'
-require 'worth_saving/active_record_ext'
-require 'worth_saving/form_builder_methods'
-require 'worth_saving/form'
-require 'worth_saving/action_view_ext'
-require 'worth_saving/drafts_controller_methods'
 
 module WorthSaving
+  extend ActiveSupport::Autoload
+
+  autoload :Info
+  autoload :FormBuilderMethods
+  autoload :Form
+  autoload :DraftsControllerMethods
+
+  eager_autoload do
+    autoload :ActiveRecordExt
+    autoload :ActionViewExt
+  end
 end
 
 ActiveRecord::Base.send :include, WorthSaving::ActiveRecordExt
